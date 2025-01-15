@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <div class="wrap-logo">
+            <a href="/Home/Index" class="logo">Логотип сайта</a>
+        </div>
+        <nav>
+            <a class="active" href="/Home/Index">Главная</a>
+            <a href="/Home/Cart">Корзина</a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a href="/Home/Logout">@User.Identity.Name</a>
+            }
+            else
+            {
+                <a href="/Home/Registration">Регистрация</a>
+            }
+        </nav>
+    </header>>
+    <main>
+        @RenderBody()
+    </main>
+    <footer>Все права защищены</footer>
+</body>
+</html>
