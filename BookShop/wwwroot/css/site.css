@@ -12,7 +12,7 @@ header {
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: wrap;
-    background-color: #FFEB3B;
+    background-color: #828282;
     padding: 20px 10px;
 }
 
@@ -35,15 +35,15 @@ header a {
     }
 
     header a:hover {
-        background-color: #FBC02D;
+        background-color: #28a745;
         color: #212121;
-    }
-
-    header a.active {
-        background-color: #FBC02D;
     }
 
 nav {
     display: flex;
     align-items: center;
+}
+
+.trere {
+    min-height: 100vh;
 }

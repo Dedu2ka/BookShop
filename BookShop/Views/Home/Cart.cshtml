@@ -1,7 +1,129 @@
-﻿
+﻿@model List<CartItem>
+
 @{
     ViewData["Title"] = "Cart";
 }
 
-<h1>Cart</h1>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        margin: 20px;
+    }
 
+    .table {
+        width: 80%;
+        margin: 20px auto;
+        margin-top: 10%;
+        border-collapse: collapse;
+        background: #ffffff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+        .table th, .table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        .table th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+    .btn {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+    a {
+        display: inline-block;
+        margin: 10px auto;
+        text-decoration: none;
+        color: #212121;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+
+        a:hover {
+            background-color: #218838;
+        }
+
+    .empty-cart {
+        color: #6c757d;
+        text-align: center;
+    }
+</style>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Цена</th>
+            <th>Количество</th>
+            <th>Итого</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Price</td>
+                <td>@item.Quantity</td>
+                <td>@(item.Price * item.Quantity)</td>
+                <td>
+                    <button class="btn btn-danger remove-item" data-id="@item.Id">Remove</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p style="text-align: center; margin: 20px 0; font-size: 1.2em;">Сумма к оплате: <strong>@Model.Sum(item => item.Price * item.Quantity)</strong></p>
+
+@if (Model.Any() && User.Identity.IsAuthenticated)
+{
+    <a href="/Home/PaymentSuccess">Оплатить</a>
+}
+else if (!User.Identity.IsAuthenticated)
+{
+    <p class="empty-cart">Вы не зарегистрированы.</p>
+    <a href="/Home/Registration">Зарегистрироваться</a>
+}
+else
+{
+    <p class="empty-cart">Ваша корзина пуста</p>
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).on("click", ".remove-item", function () {
+        var itemId = $(this).data("id");
+
+        $.ajax({
+            url: '/Home/RemoveFromCart',
+            type: 'POST',
+            data: { id: itemId },
+            success: function () {
+                location.reload(); // Обновляем страницу
+            },
+            error: function () {
+                alert("Error removing item from cart.");
+            }
+        });
+    });
+</script>

@@ -7,26 +7,38 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <div class="wrap-logo">
-            <a href="/Home/Index" class="logo">Логотип сайта</a>
+    <div class = "trere">
+        <header>
+            <div class="wrap-logo">
+                <a href="/Home/Index" class="logo">Логотип сайта</a>
+            </div>
+            <nav>
+                <a href="/Home/Index">Главная</a>
+                <a href="/Home/Cart">Корзина</a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a href="/Home/Logout">@User.Identity.Name</a>
+                }
+                else
+                {
+                    <a href="/Home/Registration">Регистрация</a>
+                }
+            </nav>
+        </header>
+        <main>
+            @RenderBody()
+        </main>
+    </div>
+    <footer style="background-color: #f0f0f0; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; min-height: 100px; color: #555; font-size: 14px;">
+        <div style="display: flex; justify-content: space-between;">
+            <div style="text-align: left;">
+                <p>О компании</p>
+                <p>Главная</p>
+            </div>
         </div>
-        <nav>
-            <a class="active" href="/Home/Index">Главная</a>
-            <a href="/Home/Cart">Корзина</a>
-            @if (User.Identity.IsAuthenticated)
-            {
-                <a href="/Home/Logout">@User.Identity.Name</a>
-            }
-            else
-            {
-                <a href="/Home/Registration">Регистрация</a>
-            }
-        </nav>
-    </header>>
-    <main>
-        @RenderBody()
-    </main>
-    <footer>Все права защищены</footer>
+        <div style="text-align: right;">
+            <p style="margin-top: auto;">Все права защищены</p>
+        </div>
+    </footer>
 </body>
 </html>

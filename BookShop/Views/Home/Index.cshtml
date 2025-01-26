@@ -1,6 +1,31 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
 }
 
+@model List<Book>
 
+<div class="catalog" style="display: flex; flex-wrap: wrap; margin-left: 5%; justify-content: center">
+    @foreach (var book in Model)
+    {
+        <div class="item" style="flex: 0 0 20%; margin: 10px; position: relative;">
+            <div class="cover" style="width: 200px; height: 280px; position: relative;">
+                <img src="@book.ImgUrl" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                <form asp-action="AddToCart" asp-controller="Home" method="post" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">
+                    <input type="hidden" name="id" value="@book.Id" />
+                    <input type="hidden" name="name" value="@book.Name" />
+                    <input type="hidden" name="price" value="@book.Price" />
+                    <button style="position: absolute; background: none; border: none; cursor: pointer; top: 150px; right: 15px" type="submit" class="btn btn-primary">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Add to cart" style="width: 30px; height: 30px;">
+                    </button>
+                </form>
+            </div>
+            <p>
+                <h2 style="line-height: 1;">
+                    <p style="font-size: 30px; line-height: 0.2; margin: 10px 0;">@book.Price ₽</p>
+                    @book.Name
+                    <h3 style="color: #5c5c5c; line-height: 0.1;">@book.Author</h3>
+                </h2>
+            </p>
+        </div>
+    }
+</div>

@@ -3,6 +3,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews(); // Добавляем поддержку MVC
 
+// Настройка сессий
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
+
 // Настройка аутентификации
 builder.Services.AddAuthentication("ApplicationCookie")
     .AddCookie("ApplicationCookie", options =>
@@ -17,8 +21,7 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    app.UseHsts(); // Включает HSTS (HTTP Strict Transport Security)
 }
 
 app.UseHttpsRedirection();
@@ -29,6 +32,9 @@ app.UseRouting();
 // Включаем аутентификацию и авторизацию
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Включаем сессии
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
